@@ -1,9 +1,8 @@
 import React from 'react'
 
 
-const TodoListItem = (props) => {
-    const { todo } = props; // Destructure the todo object from props
-  
+const TodoListItem = ({ todo }) => {
+   
     return (
       <li>
         <h3>{todo.title}</h3>

@@ -17,12 +17,12 @@ import TodoListItem from './TodoListItem';
    // }
  // ];
 
-function TodoList(props) {
+ const TodoList = ({ todoList }) => {
     return (
         <div>
            <ul>
                 {
-                props.todoList.map(item =>
+                todoList.map(item =>
                   (<TodoListItem key={item.id} todo={item}></TodoListItem>)  
                 )
                 }

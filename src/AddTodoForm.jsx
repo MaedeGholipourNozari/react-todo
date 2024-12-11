@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from 'react'
 
-function AddTodoForm(props){
+function AddTodoForm({ onAddTodo }) {
 
     const [todoTitle, setTodoTitle] = useState("");
     
@@ -18,7 +18,7 @@ function AddTodoForm(props){
             title: todoTitle,
             id: Date.now(), 
           }; 
-        props.onAddTodo(newTodo);
+        onAddTodo(newTodo);
 
         setTodoTitle(''); 
     };
