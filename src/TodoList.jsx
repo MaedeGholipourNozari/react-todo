@@ -17,13 +17,13 @@ import TodoListItem from './TodoListItem';
    // }
  // ];
 
- const TodoList = ({ todoList }) => {
+ const TodoList = ({ todoList,onremoveTodo }) => {
     return (
         <div>
            <ul>
                 {
                 todoList.map(item =>
-                  (<TodoListItem key={item.id} todo={item}></TodoListItem>)  
+                  (<TodoListItem key={item.id} todo={item} onRemoveTodo={onremoveTodo}></TodoListItem>)  
                 )
                 }
            </ul>
