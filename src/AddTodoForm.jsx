@@ -25,18 +25,18 @@ function AddTodoForm({ onAddTodo }) {
     };
 
     return(
-        <div>
-            <form onSubmit={handleAddTodo}>
-                <InputWithLabel 
-                    value={todoTitle}
-                   
-                    onChange={handleTitleChange}
-                   >
-                    Title : 
-                   </InputWithLabel>
-               <button type="submit" >Add</button>
-            </form>
-        </div>
+        <div className="add-todo-container">
+        <form onSubmit={handleAddTodo} className="add-todo-form">
+          <InputWithLabel 
+            value={todoTitle}
+            onChange={handleTitleChange}
+          >
+            Title:
+          </InputWithLabel>
+          <button type="submit" className="add-todo-button">Add</button>
+        </form>
+      </div>
+      
     );
 } 
 
