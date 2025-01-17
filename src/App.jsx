@@ -19,29 +19,63 @@ function App() {
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
 
-  useEffect(() => {
-    const savedTodos = localStorage.getItem("savedTodoList");
-    const fetchTodoList = new Promise((resolve,reject)=>{
-      setTimeout(() => {
-        resolve({
-          data: {
-            todoList:savedTodos ? JSON.parse(savedTodos) : [], // Initial todoList value
-          },
-        });
-      }, 2000);
-    });
+const fetchData = async () =>{
+  const options={
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+    },
+  };
+  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+ 
+  try {
+    const response = await fetch(url, options); 
 
-    fetchTodoList
-    .then((result) => {
-      // Update the state with the fetched todo list
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const todos = data.records.map((record) => ({
+      title: record.fields.Title,
+      id: record.id,
+    }));
+
+    setTodoList(todos);
+    setIsLoading(false);
+  
+  } catch (error) {
+    console.error('Error occurred while fetching data:', error);
+  }
+};
+
+
+  useEffect(() => {
+
+    fetchData();
+
+    // const savedTodos = localStorage.getItem("savedTodoList");
+    // const fetchTodoList = new Promise((resolve,reject)=>{
+    //   setTimeout(() => {
+    //     resolve({
+    //       data: {
+    //         todoList:savedTodos ? JSON.parse(savedTodos) : [], // Initial todoList value
+    //       },
+    //     });
+    //   }, 2000);
+    // });
+
+    // fetchTodoList
+    // .then((result) => {
+    //   // Update the state with the fetched todo list
       
-      setTodoList(result.data.todoList);
-      setIsLoading(false);
-    })
-    .catch((error) => {
-      console.error('Error fetching the todo list:', error);
-      setIsLoading(false);
-    });
+    //   setTodoList(result.data.todoList);
+    //   setIsLoading(false);
+    // })
+    // .catch((error) => {
+    //   console.error('Error fetching the todo list:', error);
+    //   setIsLoading(false);
+    // });
   }, []);
 
   useEffect(() => {
@@ -83,9 +117,6 @@ function App() {
             ) : (
               <TodoList todoList={todoList} onremoveTodo={removeTodo} />
             )}
-
-
-        
         </div>
       </>
   )
