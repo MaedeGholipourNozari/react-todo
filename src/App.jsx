@@ -4,10 +4,10 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import TodoList from './TodoList.jsx'
 import AddTodoForm from './AddTodoForm.jsx'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
  
-
-
 
 
 function App() {
@@ -54,28 +54,6 @@ const fetchData = async () =>{
 
     fetchData();
 
-    // const savedTodos = localStorage.getItem("savedTodoList");
-    // const fetchTodoList = new Promise((resolve,reject)=>{
-    //   setTimeout(() => {
-    //     resolve({
-    //       data: {
-    //         todoList:savedTodos ? JSON.parse(savedTodos) : [], // Initial todoList value
-    //       },
-    //     });
-    //   }, 2000);
-    // });
-
-    // fetchTodoList
-    // .then((result) => {
-    //   // Update the state with the fetched todo list
-      
-    //   setTodoList(result.data.todoList);
-    //   setIsLoading(false);
-    // })
-    // .catch((error) => {
-    //   console.error('Error fetching the todo list:', error);
-    //   setIsLoading(false);
-    // });
   }, []);
 
   useEffect(() => {
@@ -99,27 +77,39 @@ const fetchData = async () =>{
   };
    
 
-  return (
   
-      <>
-        <div className="todo-container">
-          <h1>Todo List</h1>
-          
-          <div className="add-todo-form">
-            <AddTodoForm onAddTodo={addTodo} />
-          </div>
 
-          {isLoading ? (
-              <div className="loading-container">
-                <div className="spinner"></div>
-                <p>Loading your Todo List...</p>
-              </div>
-            ) : (
-              <TodoList todoList={todoList} onremoveTodo={removeTodo} />
-            )}
-        </div>
-      </>
-  )
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={
+          <>
+          <div className="todo-container">
+            <h1>Todo List</h1>
+            
+            <div className="add-todo-form">
+              <AddTodoForm onAddTodo={addTodo} />
+            </div>
+  
+            {isLoading ? (
+                <div className="loading-container">
+                  <div className="spinner"></div>
+                  <p>Loading your Todo List...</p>
+                </div>
+              ) : (
+                <TodoList todoList={todoList} onremoveTodo={removeTodo} />
+              )}
+          </div>
+        </>
+        } />
+        <Route path="/new" element={
+          <div>
+            <h1>New Todo List</h1>
+          </div>
+        } />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App
