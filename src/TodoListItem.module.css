@@ -1,0 +1,55 @@
+.ListItem {
+    color: #333;
+    display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+  }
+  /* Todo Title */
+.todoTitle {
+    font-size: 18px;
+    margin: 0;
+    flex: 1;
+    word-break: break-word; /* Ensures long titles wrap properly */
+  }
+  /* Remove Button */
+.removeButton {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .ListItem:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  .ListItem span {
+    flex: 1;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Remove Button */
+  .ListItem button {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ListItem button:hover {
+    background-color: #ff3333;
+  }
+  

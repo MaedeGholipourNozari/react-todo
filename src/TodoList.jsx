@@ -1,5 +1,6 @@
 import React from 'react';
 import TodoListItem from './TodoListItem';
+import style from "./TodoListItem.module.css";
 
 
 //const todoList=[
@@ -20,7 +21,7 @@ import TodoListItem from './TodoListItem';
  const TodoList = ({ todoList,onremoveTodo }) => {
     return (
       <div>
-        <ul className="todo-list">
+        <ul className={style.TodoList}>
         {
                   todoList.map(item =>
                     (<TodoListItem key={item.id} todo={item} onRemoveTodo={onremoveTodo}></TodoListItem>)  
