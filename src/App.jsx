@@ -1,7 +1,7 @@
 import {useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+import style from "./App.module.css";
 import TodoList from './TodoList.jsx'
 import AddTodoForm from './AddTodoForm.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -84,16 +84,16 @@ const fetchData = async () =>{
       <Routes>
         <Route path="/" element={
           <>
-          <div className="todo-container">
+          <div className={style.todoContainer}>
             <h1>Todo List</h1>
             
-            <div className="add-todo-form">
+            <div className={style.addTodoForm}>
               <AddTodoForm onAddTodo={addTodo} />
             </div>
   
             {isLoading ? (
-                <div className="loading-container">
-                  <div className="spinner"></div>
+                <div className={style.loadingContainer}>
+                  <div className={style.spinner}></div>
                   <p>Loading your Todo List...</p>
                 </div>
               ) : (
