@@ -33,11 +33,12 @@
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 /* Global Styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  font-family: 'Roboto', sans-serif;
+  background-color: #adade4;
   margin: 0;
   padding: 0;
   display: flex;
@@ -45,7 +46,12 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-
+ul{
+  padding: 0px;
+}
+label{
+  color: #333;
+}
 /* Container */
 .todoContainer {
   background: #ffffff;
@@ -58,6 +64,7 @@ body {
 
 /* Heading */
 h1 {
+  
   font-size: 24px;
   color: #333;
   text-align: center;
@@ -65,10 +72,12 @@ h1 {
 }
 
 /* Add Todo Form */
+
 .addTodoForm {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .addTodoForm input[type="text"] {
@@ -77,9 +86,10 @@ h1 {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
+  
 }
 
-.add-todo-form button {
+.addTodoForm button {
   background-color: #4caf50;
   color: white;
   padding: 10px 15px;
@@ -90,10 +100,48 @@ h1 {
   margin-left: 10px;
   transition: background-color 0.3s ease;
 }
-
-.add-todo-form button:hover {
+.addTodoForm button:hover {
   background-color: #45a049;
 }
+
+/* Media queries */
+@media (max-width: 768px) {
+  .addTodoForm {
+    flex-direction: column;
+  }
+
+  .addTodoForm input[type="text"] {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .addTodoForm button {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .addTodoForm {
+    margin-bottom: 15px;
+  }
+
+  .addTodoForm input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .addTodoForm button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+
 
 /* Loading Message */
 .loading-message {
@@ -140,19 +188,19 @@ h1 {
 }
 
 /* Add Todo Form Container */
-.add-todo-container {
-  margin-bottom: 20px;
+.addTodoContainer {
+  margin-bottom: 100px;
 }
 
 /* Add Todo Form */
-.add-todo-form {
+.addTodoForm {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 /* Input Field */
-.add-todo-form input[type="text"] {
+.addTodoForm input[type="text"] {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
@@ -161,7 +209,7 @@ h1 {
 }
 
 /* Add Button */
-.add-todo-button {
+.addTodoButton {
   background-color: #4caf50;
   color: white;
   padding: 10px 15px;
@@ -172,7 +220,7 @@ h1 {
   transition: background-color 0.3s ease;
 }
 
-.add-todo-button:hover {
+.addTodoButton:hover {
   background-color: #45a049;
 }
 /* Todo List Item */
