@@ -18,6 +18,8 @@ function App() {
   // });
   const [todoList, setTodoList] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
+  const [isAscending, setIsAscending] = useState(true); // State to track sort order
+
 
 const fetchData = async () =>{
   const options={
@@ -26,7 +28,7 @@ const fetchData = async () =>{
       Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
     },
   };
-  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
+  const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=asc`;
  
   try {
     const response = await fetch(url, options); 
@@ -36,10 +38,22 @@ const fetchData = async () =>{
     }
 
     const data = await response.json();
+
+    //data.records.sort((objectA, objectB) => {
+      //const titleA = objectA.fields.Title.toLowerCase();
+      //const titleB = objectB.fields.Title.toLowerCase();
+
+     // if (titleA < titleB) return 1;  // A comes after B
+     // if (titleA > titleB) return -1; // A comes before B
+     // return 0; // A and B are the same
+   // });
+
     const todos = data.records.map((record) => ({
       title: record.fields.Title,
       id: record.id,
+      createdTime: record.createdTime, 
     }));
+
 
     setTodoList(todos);
     setIsLoading(false);
@@ -49,15 +63,23 @@ const fetchData = async () =>{
   }
 };
 
+ // Sort todos function
+ const sortTodos = (todos, ascending) => {
+  return [...todos].sort((a, b) => {
+    const timeA = new Date(a.createdTime);
+    const timeB = new Date(b.createdTime);
+    return ascending ? timeA - timeB : timeB - timeA;
+  });
+};
+
+
 
   useEffect(() => {
-
     fetchData();
 
   }, []);
 
   useEffect(() => {
-    
     if (!isLoading) {  
       localStorage.setItem("savedTodoList", JSON.stringify(todoList));
     }
@@ -66,18 +88,34 @@ const fetchData = async () =>{
 
    // Function to add a new todo
    const addTodo = (newTodo) => {
+    const newTask = {
+      title: newTodo.title,
+      id: newTodo.id,
+      createdTime: new Date().toISOString(),
+    };
 
-    setTodoList([...todoList, { title: newTodo.title,id: newTodo.id }]);
+    // Update list and keep it sorted
+    setTodoList((prevTodos) => sortTodos([...prevTodos, newTask], isAscending));
   };
 
   const removeTodo= (id)=>{
-   
     const updatedTodoList = todoList.filter((todo) => todo.id !== id);
     setTodoList(updatedTodoList);
   };
    
-
+// Toggle sorting order
+const toggleSortOrder = () => {
+  setIsAscending((prev) => !prev);
+};
   
+
+ // Apply sorting when the sort order changes
+ useEffect(() => {
+  if (!isLoading) {
+    setTodoList((prevTodos) => sortTodos(prevTodos, isAscending));
+  }
+}, [isAscending, isLoading]);
+
 
   return (
     <BrowserRouter>
@@ -90,7 +128,11 @@ const fetchData = async () =>{
             <div className={style.addTodoForm}>
               <AddTodoForm onAddTodo={addTodo} />
             </div>
-  
+
+            <button onClick={toggleSortOrder} className={style.sortButton}>
+                Sort by Date: {isAscending ? "Oldest First" : "Newest First"}
+              </button>
+
             {isLoading ? (
                 <div className={style.loadingContainer}>
                   <div className={style.spinner}></div>
