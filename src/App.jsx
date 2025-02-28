@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import style from "./App.module.css";
 import TodoList from './components/TodoList.jsx'
 import AddTodoForm from './components/AddTodoForm.jsx'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
 
 
  
@@ -119,6 +119,11 @@ const toggleSortOrder = () => {
 
   return (
     <BrowserRouter>
+      <nav className={style.navbar}>
+        <Link to="/" className={style.navLink}>Todo List</Link>
+        <Link to="/new" className={style.navLink}>New Todo List</Link>
+      </nav>
+
       <Routes>
         <Route path="/" element={
           <>

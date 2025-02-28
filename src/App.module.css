@@ -52,6 +52,48 @@ ul{
 label{
   color: #333;
 }
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #f4f4f4;
+  padding: 10px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  padding: 15px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Navigation links */
+.navLink {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+/* Hover effect */
+.navLink:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
 /* Container */
 .todoContainer {
   background: #ffffff;
