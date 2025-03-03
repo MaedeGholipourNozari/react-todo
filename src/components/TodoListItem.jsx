@@ -19,7 +19,13 @@ const TodoListItem = ({ todo,onRemoveTodo }) => {
     );
   };
   TodoListItem.propTypes = {
-    todo: PropTypes.func,
+   todo:  PropTypes.shape({
+         id: PropTypes.string.isRequired,
+         title: PropTypes.string.isRequired,
+         createdTime: PropTypes.string,
+       }).isRequired,
     onRemoveTodo: PropTypes.func,
 };
+
+
 export default TodoListItem

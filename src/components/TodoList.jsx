@@ -33,8 +33,14 @@ import PropTypes from 'prop-types';
     );
 }
 TodoList.propTypes = {
-  todoList: PropTypes.func,
-  onremoveTodo: PropTypes.func,
+  todoList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      createdTime: PropTypes.string,
+    })
+  ).isRequired,
+  onremoveTodo: PropTypes.func.isRequired,
 };
 
 export default TodoList;
