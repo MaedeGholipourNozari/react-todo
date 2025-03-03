@@ -2,6 +2,7 @@ import {useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import style from "./App.module.css";
+import Home from "./Home.jsx";
 import TodoList from './components/TodoList.jsx'
 import AddTodoForm from './components/AddTodoForm.jsx'
 import { BrowserRouter, Routes, Route,Link } from "react-router-dom";
@@ -87,20 +88,75 @@ const fetchData = async () =>{
   }, [todoList, isLoading]);
 
    // Function to add a new todo
-   const addTodo = (newTodo) => {
+   const addTodo =async (newTodo) => {
     const newTask = {
       title: newTodo.title,
-      id: newTodo.id,
-      createdTime: new Date().toISOString(),
+      createdTime: new Date().toISOString().split("T")[0],
     };
-
-    // Update list and keep it sorted
-    setTodoList((prevTodos) => sortTodos([...prevTodos, newTask], isAscending));
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fields: {
+          Title: newTask.title,
+          createdTime: newTask.createdTime,
+        },
+      }),
+    };
+    const url = `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}?view=Grid%20view&sort[0][field]=Title&sort[0][direction]=asc`;
+ 
+    try {
+      const response = await fetch(
+        url, options
+      );
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      const data = await response.json();
+  
+      // Update the state with the new todo, using Airtable's assigned ID
+      setTodoList((prevTodos) =>
+        sortTodos(
+          [...prevTodos, { title: data.fields.Title, id: data.id, createdTime: data.fields.createdTime }],
+          isAscending
+        )
+      );
+    } catch (error) {
+      console.error("Error adding todo:", error);
+    }
+   
   };
 
-  const removeTodo= (id)=>{
-    const updatedTodoList = todoList.filter((todo) => todo.id !== id);
-    setTodoList(updatedTodoList);
+  const removeTodo=async (id)=>{
+
+    const options = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_API_TOKEN}`,
+      },
+    };
+  
+    try {
+      const response = await fetch(
+        `https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}/${id}`,
+        options
+      );
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+  
+      // Remove from state
+      setTodoList((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error("Error removing todo:", error);
+    }
+
   };
    
 // Toggle sorting order
@@ -120,12 +176,14 @@ const toggleSortOrder = () => {
   return (
     <BrowserRouter>
       <nav className={style.navbar}>
-        <Link to="/" className={style.navLink}>Todo List</Link>
-        <Link to="/new" className={style.navLink}>New Todo List</Link>
+        
+        <Link to="/" className={style.navLink}>Home</Link>
+        <Link to="/TodoList" className={style.navLink}>Todo List</Link>
       </nav>
 
       <Routes>
-        <Route path="/" element={
+        <Route path="/" element={<Home />} />
+        <Route path="/TodoList" element={
           <>
           <div className={style.todoContainer}>
             <h1>Todo List</h1>
@@ -149,11 +207,10 @@ const toggleSortOrder = () => {
           </div>
         </>
         } />
-        <Route path="/new" element={
-          <div>
-            <h1>New Todo List</h1>
-          </div>
-        } />
+       
+
+       
+
       </Routes>
     </BrowserRouter>
   );

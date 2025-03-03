@@ -20,7 +20,7 @@ function AddTodoForm({ onAddTodo }) {
 
         const newTodo = {
             title: todoTitle,
-            id: Date.now(), 
+            id: Date.now().toString(), 
           }; 
         onAddTodo(newTodo);
 

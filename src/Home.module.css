@@ -1,0 +1,31 @@
+.homeContainer {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+    color: #2c3e50;
+  }
+  
+  .welcomeMessage {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin: 10px 0;
+  }
+  
+  .startButton {
+    background-color: #3498db;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .startButton:hover {
+    background-color: #2980b9;
+  }
+  

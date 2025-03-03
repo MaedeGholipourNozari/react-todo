@@ -29,9 +29,12 @@ const InputWithLabel=(props)=>{
        
     );
 };
+
 InputWithLabel.propTypes = {
-    props: PropTypes.func
-};
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired, 
+  };
 
 
 export default InputWithLabel
